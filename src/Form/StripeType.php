@@ -35,9 +35,17 @@ class StripeType extends AbstractType
                     ],
                 ],
                 'invalid' => [
-                    'color' => '#fa755a',
-                    'iconColor' => '#fa755a',
+                    'color' => '#dc3545',
+                    'iconColor' => '#dc3545',
                 ],
+            ],
+            'classes' => [
+                'base' => 'form-control',
+                'complete' => '',
+                'empty' => '',
+                'focus' => '',
+                'invalid' => 'is-invalid',
+                'webkitAutoFill' => '',
             ],
         ]);
     }
@@ -47,6 +55,7 @@ class StripeType extends AbstractType
         $builder->setAttribute('publishable_key', $this->publishableKey);
         $builder->setAttribute('hide_postal_code', $options['hide_postal_code']);
         $builder->setAttribute('style', $options['style']);
+        $builder->setAttribute('classes', $options['classes']);
 
         $builder
             ->add('token', HiddenType::class)
@@ -60,6 +69,7 @@ class StripeType extends AbstractType
         $view->vars['options'] = json_encode([
             'hidePostalCode' => (bool) $options['hide_postal_code'],
             'style' => $options['style'],
+            'classes' => $options['classes'],
         ]);
     }
 

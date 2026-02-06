@@ -1,9 +1,11 @@
 {%- block stripe_widget -%}
-  {{ form_widget(form.token) }}
-  {{ form_widget(form.last4) }}
-
-  <div id="{{ form.vars.id }}_card" class="stripe-card"></div>
-  <div id="{{ form.vars.id }}_error" class="stripe-error"></div>
+  {# extra wrapper for expected fieldset markup #}
+  <div>
+    {{ form_widget(form.token) }}
+    {{ form_widget(form.last4) }}
+    <div id="{{ form.vars.id }}_card"></div>
+    <div id="{{ form.vars.id }}_error" class="invalid-feedback d-block"></div>
+  </div>
 
   <script>
     window.addEventListener('load', function() {
@@ -18,8 +20,49 @@
 
       const error = document.getElementById('{{ form.vars.id }}_error');
 
-      const createToken = function() {
-        stripe.createToken(card).then(function(result) {
+      const form = token.form;
+
+      function getCardData() {
+        const names = form.querySelectorAll('[data-stripe-name]');
+
+        const inputs = {
+          'address_line1': form.querySelector('[data-stripe-address-line-1]'),
+          'address_line2': form.querySelector('[data-stripe-address-line-2]'),
+          'address_city': form.querySelector('[data-stripe-city]'),
+          'address_state': form.querySelector('[data-stripe-state]'),
+          'address_zip': form.querySelector('[data-stripe-zip]'),
+          'address_country': form.querySelector('[data-stripe-country]'),
+        };
+
+        const data = {};
+
+        let name = [];
+
+        names.forEach((input) => {
+          if (input.value) {
+            name.push(input.value);
+          }
+        });
+
+        if (name.length) {
+          data.name = name.join(' ');
+        }
+
+        for (let key in inputs) {
+          const input = inputs[key];
+
+          if (input && input.value) {
+            data[key] = input.value;
+          }
+        }
+
+        console.log(data);
+
+        return data;
+      }
+
+      function createToken() {
+        stripe.createToken(card, getCardData()).then(function(result) {
           if (result.error) {
             token.value = '';
             last4.value = '';
