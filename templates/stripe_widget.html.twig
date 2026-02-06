@@ -4,7 +4,7 @@
     {{ form_widget(form.token) }}
     {{ form_widget(form.last4) }}
     <div id="{{ form.vars.id }}_card"></div>
-    <div id="{{ form.vars.id }}_error" class="invalid-feedback d-block"></div>
+    <div id="{{ form.vars.id }}_error" class="invalid-feedback d-block">&nbsp;</div>
   </div>
 
   <script>
@@ -73,7 +73,7 @@
             token.value = result.token.id;
             last4.value = result.token.card.last4;
 
-            error.textContent = '';
+            error.innerHTML = '&nbsp;';
           }
         });
       };
@@ -83,7 +83,7 @@
           error.textContent = e.error.message;
         }
         else {
-          error.textContent = '';
+          error.innerHTML = '&nbsp;';
 
           createToken();
         }

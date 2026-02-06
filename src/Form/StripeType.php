@@ -27,7 +27,7 @@ class StripeType extends AbstractType
             // https://docs.stripe.com/js/appendix/style
             'style' => [
                 'base' => [
-                    'color' => '#32325d',
+                    'color' => '#212529',
                     'fontFamily' => '"Helvetica Neue", Helvetica, sans-serif',
                     'fontSmoothing' => 'antialiased',
                     'fontSize' => '16px',
@@ -47,7 +47,7 @@ class StripeType extends AbstractType
                 'empty' => '',
                 'focus' => '',
                 'invalid' => 'is-invalid',
-                'webkitAutoFill' => '',
+                'webkitAutofill' => '',
             ],
         ]);
     }
