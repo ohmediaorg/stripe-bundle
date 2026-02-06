@@ -54,10 +54,6 @@ class StripeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->setAttribute('hide_postal_code', $options['hide_postal_code']);
-        $builder->setAttribute('style', $options['style']);
-        $builder->setAttribute('classes', $options['classes']);
-
         $builder
             ->add('token', HiddenType::class)
             ->add('last4', HiddenType::class)
