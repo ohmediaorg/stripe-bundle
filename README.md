@@ -1,12 +1,8 @@
-Overview
-========
+# Overview
 
 Offers a Stripe Card form field and access to the API.
 
-Installation
-------------
-
-Get the Stripe PHP SDK with `composer require stripe/stripe-php`.
+## Installation
 
 Enable the bundle in `config/bundles.php`:
 
@@ -21,8 +17,7 @@ Make sure Stripe JS `<script src="https://js.stripe.com/clover/stripe.js"></scri
 is on every page. Stripe checks for fraudelant behaviour on each page this
 script is included, so the more the better.
 
-Configuration
--------------
+## Configuration
 
 Create the following in `config/packages/oh_media_stripe.yaml`:
 
@@ -39,8 +34,7 @@ STRIPE_PUBLISHABLE_KEY=''
 STRIPE_SECRET_KEY=''
 ```
 
-Retrieving a Token
-------------------
+## Retrieving a Token
 
 Add the field to a form:
 
@@ -56,8 +50,25 @@ via `$form->get('stripe')->get('token')->getData()`.
 You can also get the last 4 digits of the card
 using `$form->get('stripe')->get('last4')->getData()`.
 
-Accessing the API
------------------
+## Passing Billing Information
+
+When the built-in Stripe code creates the token, it will automatically look for
+the following selectors within the form to grab billing information:
+
+```js
+data-stripe-name
+data-stripe-address-line-1
+data-stripe-address-line-2
+data-stripe-city
+data-stripe-state
+data-stripe-country
+data-stripe-zip
+```
+
+There can be multiple of `data-stripe-name` which will be concatenated together
+with a `SPACE`, but the rest will only look for one input.
+
+## Accessing the API
 
 Inject the Stripe service into your controller:
 
