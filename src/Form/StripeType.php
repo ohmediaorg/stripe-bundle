@@ -24,6 +24,7 @@ class StripeType extends AbstractType
         $resolver->setDefaults([
             'mapped' => false,
             'hide_postal_code' => true,
+            // https://docs.stripe.com/js/appendix/style
             'style' => [
                 'base' => [
                     'color' => '#32325d',
@@ -39,6 +40,7 @@ class StripeType extends AbstractType
                     'iconColor' => '#dc3545',
                 ],
             ],
+            // https://docs.stripe.com/js/elements_object/create_element?type=card#elements_create-options-classes
             'classes' => [
                 'base' => 'form-control',
                 'complete' => '',
