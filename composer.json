@@ -11,9 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
-        "stripe/stripe-php": "dev-master",
-        "symfony/framework-bundle": "6.4.*"
+        "php": ">=8.2"
     },
     "autoload": {
         "psr-4": { "OHMedia\\StripeBundle\\": "src/" }
