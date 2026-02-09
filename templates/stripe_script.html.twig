@@ -1,0 +1,59 @@
+<script src="https://js.stripe.com/clover/stripe.js"></script>
+<script>
+  function OHMEDIA_STRIPE(stripe_field_id) {
+    const stripe = Stripe('{{ publishable_key }}');
+
+    const card = stripe.elements().create('card', {{ options|raw }});
+
+    card.mount(`#${stripe_field_id}_card`);
+
+    const token = document.getElementById(`${stripe_field_id}_token`);
+    const last4 = document.getElementById(`${stripe_field_id}_last4`);
+
+    const error = document.getElementById(`${stripe_field_id}_error`);
+
+    const form = token.form;
+
+    function setError(message) {
+      error.textContent = message;
+    }
+
+    function clearError() {
+      error.innerHTML = '&nbsp;';
+    }
+
+    function createToken(cardData) {
+      return stripe.createToken(card, cardData).then(function(result) {
+        if (result.error) {
+          token.value = '';
+          last4.value = '';
+
+          return result.error.message;
+        }
+        else {
+          token.value = result.token.id;
+          last4.value = result.token.card.last4;
+
+          clearError();
+
+          return '';
+        }
+      });
+    };
+
+    card.addEventListener('change', function(e) {
+      if (e.error) {
+        setError(e.error.message);
+      }
+      else {
+        clearError();
+      }
+    });
+
+    return {
+      createToken,
+      setError,
+      clearError,
+    };
+  }
+</script>
