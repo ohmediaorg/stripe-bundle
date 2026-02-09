@@ -22,15 +22,9 @@ class Stripe
             ? array_slice(func_get_args(), 2)
             : [];
 
-        try {
-            $object = call_user_func_array(
-                [$this->client->{$api}, $action],
-                $args
-            );
-        } catch (\Exception $e) {
-            $object = null;
-        }
-
-        return $object;
+        return call_user_func_array(
+            [$this->client->{$api}, $action],
+            $args
+        );
     }
 }
