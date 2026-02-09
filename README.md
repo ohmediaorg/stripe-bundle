@@ -4,6 +4,12 @@ Offers a Stripe Card form field and access to the API.
 
 ## Installation
 
+Install Stripe:
+
+```bash
+composer require stripe/stripe-php
+```
+
 Enable the bundle in `config/bundles.php`:
 
 ```php
