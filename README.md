@@ -19,9 +19,9 @@ return [
 ];
 ```
 
-Make sure Stripe JS `<script src="https://js.stripe.com/clover/stripe.js"></script>`
-is on every page. Stripe checks for fraudelant behaviour on each page this
-script is included, so the more the better.
+Make sure `{{ stripe_script() }}` is rendered on every page. It includes
+Stripe's JS. Stripe checks for fraudelant behaviour on each page its script is
+included, so the more the better.
 
 ## Configuration
 
@@ -56,23 +56,32 @@ via `$form->get('stripe')->get('token')->getData()`.
 You can also get the last 4 digits of the card
 using `$form->get('stripe')->get('last4')->getData()`.
 
-## Passing Billing Information
+## Initializing the Stripe JS
 
-When the built-in Stripe code creates the token, it will automatically look for
-the following selectors within the form to grab billing information:
+```twig
+<script>
+  const stripe = OHMEDIA_STRIPE('{{ form.stripe.vars.id }}');
 
-```js
-data-stripe-name
-data-stripe-address-line-1
-data-stripe-address-line-2
-data-stripe-city
-data-stripe-state
-data-stripe-country
-data-stripe-zip
+  // provide billing information
+  const cardData = {
+    'name': ...,
+    'address_line1': ...,
+    'address_line2': ...,
+    'address_city': ...,
+    'address_state': ...,
+    'address_zip': ...,
+    'address_country': ...,
+  };
+
+  stripe.createToken(cardData).then(function(errorMessage) {
+    if (errorMessage) {
+      // do something with errorMessage
+    } else {
+      // continue with form submission
+    }
+  });
+</script>
 ```
-
-There can be multiple of `data-stripe-name` which will be concatenated together
-with a `SPACE`, but the rest will only look for one input.
 
 ## Accessing the API
 
